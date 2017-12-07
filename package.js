@@ -29,7 +29,7 @@ Package.onUse(function(api) {
   ],'client');
 
   api.addFiles([
-    'server/Robots.js'
+    'server/admin.js'
   ],'server');
 
 });

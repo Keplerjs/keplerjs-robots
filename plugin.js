@@ -5,7 +5,7 @@ K.Plugin({
 	},*/
 	schemas: {
 		user: {
-			isRobot: 1
+			isRobot: 0
 		}
 	},
 	filters: {
@@ -30,8 +30,11 @@ K.Plugin({
 			}
 		}	
 	},
-	/*settings: {
-		public: {
+	settings: {
+		"public": {
+			"robots": {
+				"prefix": "bot_"
+			}
 		}
-	}*/
+	}
 });
