@@ -1,3 +1,3 @@
 ## keplerjs:robots
 
-KeplerJs plugin to create various robot users to test interactions on the platform
+KeplerJs plugin to create robots users to test multi user interactions on the platform

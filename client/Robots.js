@@ -11,5 +11,15 @@ Kepler.Robots = {
 				});
 			}
 		});
-	}
+	},
+	insertRobot: function(username) {
+		
+		var loc = K.Map.getCenter();
+
+		K.Admin.call('insertRobot', username, loc, function(err, userId) {
+			if(userId) {
+				K.userById(userId)
+			}
+		});
+	}	
 };
