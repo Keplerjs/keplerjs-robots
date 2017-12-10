@@ -1,3 +1,9 @@
+/**
+ * https://github.com/node-geojson/geojson-random
+ * random.position(bbox?)
+ * random.polygon(count, num_vertices, max_radial_length, bbox)
+ * random.lineString(count, num_vertices, max_length, max_rotation, bbox)
+ */
 GeojsonRandom = Npm.require('geojson-random');
 
 //TODO Users.after.remove(function(userId, user) {
@@ -11,9 +17,14 @@ Kepler.Robots = {
 	//
 	tracks: new Mongo.Collection('robots_tracks'),
 
-	randomPathByLoc: function(loc) {
+	/**
+	 * create a random track
+	 * @param  {[type]} loc [description]
+	 * @return {[type]}     [description]
+	 */
+	randomTrackByLoc: function(loc) {
 		
-		var bbox = K.Util.geo.bufferLoc(loc, 1000, true);
+		var bbox = K.Util.geo.bufferLoc(loc, 500, true);
 		
 		bbox = K.Util.geo.reverseBbox(bbox);
 		bbox = K.Util.geo.plainBbox(bbox);
