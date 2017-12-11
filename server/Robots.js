@@ -29,8 +29,8 @@ Kepler.Robots = {
 	randomTrackByLoc: function(loc) {
 		
 		var bbox = K.Util.geo.bufferLoc(loc, 500, true),
-			maxLen = K.Util.geo.meters2rad(200),
-			maxRot = K.Util.geo.deg2rad(120),
+			maxLen = K.Util.geo.meters2rad(300),
+			maxRot = K.Util.geo.deg2rad(100),
 			maxPoints = 100;
 		
 		bbox = K.Util.geo.reverseBbox(bbox);
@@ -51,9 +51,10 @@ Kepler.Robots = {
 		K.Robots.tracks.find({}).forEach(function(doc) {
 
 			var coords = doc.geojson.features[0].geometry.coordinates,
+				arrived = doc.indexLoc >= (coords.length-1),
 				inc = 1,
 				//TODO change inc
-				indexLoc = doc.indexLoc >= (coords.length-1) ? 0 : (doc.indexLoc+inc),
+				indexLoc = arrived ? 0 : (doc.indexLoc+inc),
 				newLoc = coords[indexLoc].reverse();
 
 			//console.log('Robots: updateLoc ', indexLoc, newLoc);
