@@ -2,7 +2,7 @@
 Package.describe({
   name: 'keplerjs:robots',
   summary: 'keplerjs plugin to create various robot users to test interactions on the platform',
-  version: "1.2.5",
+  version: "1.2.6",
   git: "https://github.com/Keplerjs/Kepler.git"
 });
 

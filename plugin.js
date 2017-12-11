@@ -33,7 +33,8 @@ K.Plugin({
 	settings: {
 		"public": {
 			"robots": {
-				"prefix": "bot_"
+				"prefix": "bot_",
+				"delayUpdate": 1000
 			}
 		}
 	}

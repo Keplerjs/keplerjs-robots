@@ -10,8 +10,7 @@ K.Admin.methods({
 		return K.Robots.randomTrackByLoc(loc);
 	},
 	startRobotsMove: function() {
-		
-		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, 1000);
+		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, K.settings.public.robots.delayUpdate);
 	},
 	stopRobotsMove: function() {
 
@@ -20,6 +19,10 @@ K.Admin.methods({
 	insertRobot: function(username, loc) {
 
 		if(!K.Admin.isMe()) return null;
+
+		loc = loc || 
+			  K.Util.getPath(Meteor.user(),'loclast') || 
+			  K.Util.getPath(Meteor.user(),'settings.map.center');
 
 		username = K.settings.public.robots.prefix + username;
 		
@@ -52,7 +55,20 @@ K.Admin.methods({
 		
 		if(!K.Admin.isMe()) return null;
 
-		K.Admin.call('removeUser', K.settings.public.robots.prefix+username);
+		K.Admin.call('removeUser', username);
 		K.Robots.tracks.remove({username: username});
+
+		console.log('Robots: removeRobot', username);
+	},
+	removeAllRobots: function() {
+		
+		if(!K.Admin.isMe()) return null;
+
+		Users.find({isRobot:1}).forEach(function(user) {
+			K.Admin.call('removeUser', user.username);
+		});
+		K.Robots.tracks.remove({});		
+
+		console.log('Robots: removeAllRobots');
 	}
 });

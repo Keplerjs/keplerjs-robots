@@ -24,12 +24,15 @@ Kepler.Robots = {
 	 */
 	randomTrackByLoc: function(loc) {
 		
-		var bbox = K.Util.geo.bufferLoc(loc, 500, true);
+		var bbox = K.Util.geo.bufferLoc(loc, 500, true),
+			maxLen = K.Util.geo.meters2rad(200),
+			maxRot = K.Util.geo.deg2rad(120),
+			maxPoints = 100;
 		
 		bbox = K.Util.geo.reverseBbox(bbox);
 		bbox = K.Util.geo.plainBbox(bbox);
 
-		return GeojsonRandom.lineString(1, 100, K.Util.geo.meters2rad(500), null, bbox);
+		return GeojsonRandom.lineString(1, maxPoints, maxLen, maxRot, bbox);
 	},
 
 	updateLoc: function() {
