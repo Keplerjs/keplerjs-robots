@@ -9,8 +9,16 @@ K.Admin.methods({
 
 		return K.Robots.randomTrackByLoc(loc);
 	},
+	loadRobotTrack: function(username) {
+		
+		if(!K.Admin.isMe()) return null;
+		
+		console.log('Robots: loadRobotTrack', username);
+
+		return K.Robots.tracks.findOne({username: username});
+	},	
 	startRobotsMove: function() {
-		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, K.settings.public.robots.delayUpdate);
+		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, K.settings.robots.delayUpdate);
 	},
 	stopRobotsMove: function() {
 
@@ -24,7 +32,7 @@ K.Admin.methods({
 			  K.Util.getPath(Meteor.user(),'loclast') || 
 			  K.Util.getPath(Meteor.user(),'settings.map.center');
 
-		username = K.settings.public.robots.prefix + username;
+		username = K.settings.robots.prefix + username;
 		
 		var userId = Accounts.createUser({
 			username: username,
@@ -47,7 +55,7 @@ K.Admin.methods({
 			});
 		}
 
-		console.log('Robots: insertRobot', username, userId);
+		console.log('Robots: insertRobot', username);
 
 		return userId;
 	},

@@ -21,5 +21,5 @@ Kepler.Robots = {
 				K.userById(userId)
 			}
 		});
-	}	
+	}
 };

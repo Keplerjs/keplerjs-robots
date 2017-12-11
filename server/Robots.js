@@ -7,7 +7,11 @@
 GeojsonRandom = Npm.require('geojson-random');
 
 //TODO Users.after.remove(function(userId, user) {
-//TODO startup if(!K.settings.public.robots.updateLoc) {
+//
+Meteor.startup(function() {
+	if(K.settings.robots.startUpdate)
+		K.Admin.call('startRobotsMove');
+});
 
 Kepler.Robots = {
 
@@ -34,16 +38,17 @@ Kepler.Robots = {
 
 		return GeojsonRandom.lineString(1, maxPoints, maxLen, maxRot, bbox);
 	},
-
+	/**
+	 * shift robot's location into a track
+	 * @return {[type]} [description]
+	 */
 	updateLoc: function() {
 
 		//console.log('Robots: update locations...');
 
 		//TODO define var that swtich simulation play stop
-
-		var cur = K.Robots.tracks.find({});
-
-		cur.forEach(function(doc) {
+		
+		K.Robots.tracks.find({}).forEach(function(doc) {
 
 			var coords = doc.geojson.features[0].geometry.coordinates,
 				inc = 1,

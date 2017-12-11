@@ -31,11 +31,10 @@ K.Plugin({
 		}	
 	},
 	settings: {
-		"public": {
-			"robots": {
-				"prefix": "bot_",
-				"delayUpdate": 1000
-			}
+		"robots": {
+			"startUpdate": false,
+			"delayUpdate": 1000,
+			"prefix": "bot_",
 		}
 	}
 });
