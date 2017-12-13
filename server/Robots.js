@@ -5,6 +5,8 @@
  * random.lineString(count, num_vertices, max_length, max_rotation, bbox)
  */
 GeojsonRandom = Npm.require('geojson-random');
+//simplifyGeometry = Npm.require('simplify-geometry');
+//simplified is not more good result! :(
 
 //TODO Users.after.remove(function(userId, user) {
 //
@@ -28,15 +30,20 @@ Kepler.Robots = {
 	 */
 	randomTrackByLoc: function(loc) {
 		
-		var bbox = K.Util.geo.bufferLoc(loc, 500, true),
-			maxLen = K.Util.geo.meters2rad(300),
-			maxRot = K.Util.geo.deg2rad(100),
+		var bbox = K.Util.geo.bufferLoc(loc, 100, true),
+			maxLen = K.Util.geo.meters2rad(100),
+			maxRot = K.Util.geo.deg2rad(80),
 			maxPoints = 100;
 		
 		bbox = K.Util.geo.reverseBbox(bbox);
 		bbox = K.Util.geo.plainBbox(bbox);
 
-		return GeojsonRandom.lineString(1, maxPoints, maxLen, maxRot, bbox);
+		var geojson = GeojsonRandom.lineString(1, maxPoints, maxLen, maxRot, bbox);
+
+		//var coords = geojson.features[0].geometry.coordinates;
+		//geojson.features[0].geometry.coordinates = simplifyGeometry(coords,0.002);
+
+		return geojson;
 	},
 	/**
 	 * shift robot's location into a track
@@ -49,6 +56,7 @@ Kepler.Robots = {
 		//TODO define var that swtich simulation play stop
 		
 		K.Robots.tracks.find({}).forEach(function(doc) {
+		//Users.find({isRobot: 1}).forEach(function(doc) {
 
 			var coords = doc.geojson.features[0].geometry.coordinates,
 				arrived = doc.indexLoc >= (coords.length-1),

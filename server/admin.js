@@ -5,17 +5,17 @@ K.Admin.methods({
 		
 		if(!K.Admin.isMe()) return null;
 		
-		console.log('Robots: loadRandomTrack', loc);
+		console.log('Admin: loadRandomTrack', loc);
 
 		return K.Robots.randomTrackByLoc(loc);
 	},
-	loadRobotTrack: function(username) {
+	loadRobotTrack: function(userId) {
 		
 		if(!K.Admin.isMe()) return null;
 		
-		console.log('Robots: loadRobotTrack', username);
+		console.log('Admin: loadRobotTrack', userId);
 
-		return K.Robots.tracks.findOne({username: username});
+		return K.Robots.tracks.findOne({userId: userId});
 	},	
 	startRobotsMove: function() {
 		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, K.settings.robots.delayUpdate);
@@ -55,7 +55,7 @@ K.Admin.methods({
 			});
 		}
 
-		console.log('Robots: insertRobot', username);
+		console.log('Admin: insertRobot', username);
 
 		return userId;
 	},
@@ -66,7 +66,7 @@ K.Admin.methods({
 		K.Admin.call('removeUser', username);
 		K.Robots.tracks.remove({username: username});
 
-		console.log('Robots: removeRobot', username);
+		console.log('Admin: removeRobot', username);
 	},
 	removeAllRobots: function() {
 		
@@ -77,6 +77,6 @@ K.Admin.methods({
 		});
 		K.Robots.tracks.remove({});		
 
-		console.log('Robots: removeAllRobots');
+		console.log('Admin: removeAllRobots');
 	}
 });
