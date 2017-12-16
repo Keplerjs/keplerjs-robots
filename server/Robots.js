@@ -46,34 +46,38 @@ Kepler.Robots = {
 		return geojson;
 	},
 	/**
-	 * shift robot's location into a track
+	 * update robot's properties: location, checkin, onlineoffline
 	 * @return {[type]} [description]
 	 */
-	updateLoc: function() {
+	update: function() {
 
 		//console.log('Robots: update locations...');
-
-		//TODO define var that swtich simulation play stop
 		
-		K.Robots.tracks.find({}).forEach(function(doc) {
-		//Users.find({isRobot: 1}).forEach(function(doc) {
+		//var bbox = K.Util.geo.bufferLoc(loc, 100, true)
+		//var places = K.findPlacesByBBox(bbox);
+		
 
-			var coords = doc.geojson.features[0].geometry.coordinates,
-				arrived = doc.indexLoc >= (coords.length-1),
+		//TODO auto accept friend request!
+
+		K.Robots.tracks.find({}).forEach(function(track) {
+		//Users.find({isRobot: 1}).forEach(function(track) {
+
+			var coords = track.geojson.features[0].geometry.coordinates,
+				arrived = track.indexLoc >= (coords.length-1),
 				inc = 1,
 				//TODO change inc
-				indexLoc = arrived ? 0 : (doc.indexLoc+inc),
+				indexLoc = arrived ? 0 : (track.indexLoc+inc),
 				newLoc = coords[indexLoc].reverse();
 
-			//console.log('Robots: updateLoc ', indexLoc, newLoc);
+			//console.log('Robots: update ', indexLoc, newLoc);
 
-			Users.update(doc.userId, {
+			Users.update(track.userId, {
 				$set: {
 					loc: newLoc
 				}
 			});
 
-			K.Robots.tracks.update({userId: doc.userId}, {
+			K.Robots.tracks.update({userId: track.userId}, {
 				$set: {
 					indexLoc: indexLoc
 				}

@@ -18,46 +18,70 @@ K.Admin.methods({
 		return K.Robots.tracks.findOne({userId: userId});
 	},	
 	startRobotsMove: function() {
-		K.Robots.timer = Meteor.setInterval(K.Robots.updateLoc, K.settings.robots.delayUpdate);
+		K.Robots.timer = Meteor.setInterval(K.Robots.update, K.settings.robots.delayUpdate);
 	},
 	stopRobotsMove: function() {
 
 		Meteor.clearInterval(K.Robots.timer);
 	},	
+
 	insertRobot: function(username, loc) {
 
 		if(!K.Admin.isMe()) return null;
+		
+		var user = Meteor.user();
 
 		loc = loc || 
-			  K.Util.getPath(Meteor.user(),'loclast') || 
-			  K.Util.getPath(Meteor.user(),'settings.map.center');
+			  K.Util.getPath(user,'loclast') || 
+			  K.Util.getPath(user,'settings.map.center');
+
+		var bbox = K.Util.geo.bufferLoc(loc, 500, true);
 
 		username = K.settings.robots.prefix + username;
 		
-		var userId = Accounts.createUser({
-			username: username,
-			password: username+username,
-			//email: username+'@example.com',
+		var robotId = Accounts.createUser({
 			isRobot: 1,
+			username: username,
 			name: username,
+			password: K.Util.randomString(),
+			//email: username+'@example.com',
 			status: 'online',
 			loc: loc
 		});
 
-		if(userId) {
-			K.updateFriendship(this.userId, userId);
+		if(robotId)
+		{
+			//add robot to all users's friends list
+			K.updateFriendshipRobotUsers(robotId);
 
-			K.Robots.tracks.insert({
-				username: username,
-				userId: userId,
-				indexLoc: 0,
-				geojson: K.Robots.randomTrackByLoc(loc)
-			});
+			switch(_.random(1,3)) {
+
+				case 1:
+					var place = _.sample(K.findPlacesByBBox(bbox).fetch());
+					if(place) {
+						K.insertCheckin(place._id, robotId);
+					}
+				break;
+				case 2:
+					K.Robots.tracks.insert({
+						username: username,
+						userId: robotId,
+						indexLoc: 0,
+						geojson: K.Robots.randomTrackByLoc(loc)
+					});
+				break;
+				default:
+					Users.update(robotId, {
+						$set: {
+							loc: K.Util.geo.randomLoc(bbox)
+						}
+					})
+			}
 		}
 
 		console.log('Admin: insertRobot', username);
 
-		return userId;
+		return robotId;
 	},
 	removeRobot: function(username) {
 		

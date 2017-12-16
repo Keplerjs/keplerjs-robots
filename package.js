@@ -2,7 +2,7 @@
 Package.describe({
   name: 'keplerjs:robots',
   summary: 'keplerjs plugin to create various robot users to test interactions on the platform',
-  version: "1.3.0",
+  version: "1.3.2",
   git: "https://github.com/Keplerjs/Kepler.git"
 });
 
@@ -32,7 +32,8 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'server/Robots.js',
-    'server/admin.js'
+    'server/admin.js',
+    'server/users.js',
   ],'server');
 
 });

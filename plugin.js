@@ -11,30 +11,25 @@ K.Plugin({
 	filters: {
 		currentUser: {
 			fields: {
-				places:1
-			}
-		},		
-		placePanel: {
-			fields: {
-				userId:1
+				isRobot:1
 			}
 		},
 		friendPanel: {
 			fields: {
-				places:1
+				isRobot:1
 			}
 		},		
 		userPanel: {
 			fields: {
-				places:1
+				isRobot:1
 			}
 		}	
 	},
 	settings: {
 		"robots": {
 			"startUpdate": false,
-			"delayUpdate": 1000,
-			"prefix": "bot_",
+			"delayUpdate": 2000,
+			"prefix": "robot.",
 		}
 	}
 });
