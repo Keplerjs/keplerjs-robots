@@ -57,7 +57,23 @@ Kepler.Robots = {
 		//var places = K.findPlacesByBBox(bbox);
 		
 
-		//TODO auto accept friend request!
+		/*
+			auto accept friend request!
+		 */
+		if(_.random(1,5)>4)
+		{
+			Users.find({isRobot: 1, usersReceive: {$ne: []} }).forEach(function(robot) {
+				
+				console.log('Robots: Autoconfirm ', robot.username);
+				
+				_.map(robot.usersReceive, function(id) {
+					var user = Users.findOne(id);
+					
+					K.updateFriendship(robot._id, user._id);
+				});
+			});
+		}
+
 
 		K.Robots.tracks.find({}).forEach(function(track) {
 		//Users.find({isRobot: 1}).forEach(function(track) {

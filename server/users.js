@@ -9,12 +9,14 @@ K.updateFriendshipRobots = function(userId) {
 	var robots = Users.find({isRobot: 1}).fetch(),
 		ids = _.pluck(robots,'_id');
 
-	ids = _.without(ids, userId);
+	var userIds = _.without(ids, userId);
+
+	console.log('K.updateFriendshipRobots', ids,userId,userIds )
 
 	Users.update(userId, {
 		$addToSet: {
 			friends: {
-				$each: ids
+				$each: userIds
 			}
 		}
 	});
@@ -34,7 +36,6 @@ K.updateFriendshipRobotUsers = function(robotId) {
 		}
 	}, { multi: true });
 };
-
 
 Users.after.insert(function(userId, user) {
 
