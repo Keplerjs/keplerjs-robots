@@ -11,8 +11,6 @@ K.updateFriendshipRobots = function(userId) {
 
 	var userIds = _.without(ids, userId);
 
-	console.log('K.updateFriendshipRobots', ids,userId,userIds )
-
 	Users.update(userId, {
 		$addToSet: {
 			friends: {

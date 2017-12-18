@@ -74,6 +74,17 @@ Kepler.Robots = {
 			});
 		}
 
+		
+		Users.find({isRobot: 1, checkin: {$ne: null} }).forEach(function(robot) {
+			
+			if(_.random(1,3)>2)
+			{
+				var place = _.sample(K.findPlacesByNearby(robot.loclast).fetch());
+				if(place) {
+					K.insertCheckin(place._id, robot._id);
+				}
+			}
+		});
 
 		K.Robots.tracks.find({}).forEach(function(track) {
 		//Users.find({isRobot: 1}).forEach(function(track) {
