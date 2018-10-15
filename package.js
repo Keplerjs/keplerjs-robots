@@ -20,11 +20,17 @@ Package.onUse(function(api) {
 
   api.addFiles([
     'plugin.js',
+    'i18n/it.js',
+    'i18n/en.js',
+    'i18n/de.js',
+    'i18n/es.js',
+    'i18n/fr.js'
   ]);
 
   api.addFiles([
-    //'client/views/panels.html',
-    //'client/views/panels.js',
+    'client/stylesheets/icons.css',
+    'client/views/panels.html',
+    'client/views/panels.js',
     'client/Robots.js',
     'client/User_robots.js'
   ],'client');
@@ -34,5 +40,8 @@ Package.onUse(function(api) {
     'server/admin.js',
     'server/users.js',
   ],'server');
+
+  api.addAssets('assets/images/sprite.svg', 'client');
+  api.addAssets('assets/images/avatar_robot.svg', 'client');
 
 });

@@ -1,8 +1,11 @@
 
 K.Plugin({
 	name: 'robots',
-/*	templates: {
-	},*/
+	templates: {
+		panelUser: {
+			'panelUser_robots': {order: -10}
+		}
+	},
 	schemas: {
 		user: {
 			isRobot: 0
@@ -23,7 +26,12 @@ K.Plugin({
 			fields: {
 				isRobot:1
 			}
-		}	
+		},
+		friendItem: {
+			fields: {
+				isRobot:1
+			}
+		}			
 	},
 	settings: {
 		"robots": {

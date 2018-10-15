@@ -1,6 +1,11 @@
 
 Kepler.User.include({
 
+	classMarker: function() {
+		this._dep.depend();
+		return 'marker-user'+ (this.isRobot ? ' marker-robot' : '');
+	},
+
 	loadRobotTrack: function() {
 		
 		var self = this;
