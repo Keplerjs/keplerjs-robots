@@ -1,4 +1,6 @@
 
+var avatarUrl = '/packages/keplerjs_robots/assets/images/avatar_robot.svg';
+
 if(K.Admin)
 K.Admin.methods({
 	loadRandomTrack: function(loc) {
@@ -42,6 +44,7 @@ K.Admin.methods({
 		var robotId = Accounts.createUser({
 			isRobot: 1,
 			username: username,
+			avatar: avatarUrl,
 			name: username,
 			password: K.Util.randomString(),
 			//email: username+'@example.com',

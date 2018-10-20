@@ -30,7 +30,6 @@ Package.onUse(function(api) {
   api.addFiles([
     'client/stylesheets/icons.css',
     'client/views/panels.html',
-    'client/views/panels.js',
     'client/Robots.js',
     'client/User_robots.js'
   ],'client');
