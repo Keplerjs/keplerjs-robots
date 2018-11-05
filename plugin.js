@@ -2,7 +2,7 @@
 K.Plugin({
 	name: 'robots',
 	templates: {
-		panelUser: {
+		tabUser: {
 			'panelUser_robots': {order: -10}
 		}
 	},
