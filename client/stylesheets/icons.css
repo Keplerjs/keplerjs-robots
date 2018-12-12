@@ -3,3 +3,7 @@
 	background: url("/packages/keplerjs_robots/assets/images/sprite.svg") no-repeat;
 	background-position: 0 0;
 } 
+.marker-user.cat-user-bus {
+	background: url("/packages/keplerjs_robots/assets/images/sprite.svg") no-repeat;
+	background-position: 0 -30px;	
+}

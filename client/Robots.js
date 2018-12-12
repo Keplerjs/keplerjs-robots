@@ -12,13 +12,13 @@ Kepler.Robots = {
 			}
 		});
 	},
-	insertRobot: function(username) {
-		
+	insertRobot: function(username, cat) {
+
 		var loc = K.Map.getCenter();
 
-		K.Admin.call('insertRobot', username, loc, function(err, userId) {
+		K.Admin.call('insertRobot', username, loc, cat, function(err, userId) {
 			if(userId) {
-				K.userById(userId)
+				K.userById(userId);
 			}
 		});
 	}

@@ -3,7 +3,15 @@ Kepler.User.include({
 
 	classMarker: function() {
 		this._dep.depend();
-		return 'marker-user'+ (this.isRobot ? ' marker-robot' : '');
+		
+		var cats = '';
+		
+		if(this.getCats)
+			cats = _.map(this.getCats(), function(c) {
+				return 'cat-user-'+c;
+			}).join(' ');
+
+		return 'marker-user '+ cats + (this.isRobot ? ' marker-robot' : '');
 	},
 
 	loadRobotTrack: function() {

@@ -27,7 +27,7 @@ K.Admin.methods({
 		Meteor.clearInterval(K.Robots.timer);
 	},	
 
-	insertRobot: function(username, loc) {
+	insertRobot: function(username, loc, cat) {
 
 		if(!K.Admin.isMe()) return null;
 		
@@ -40,8 +40,7 @@ K.Admin.methods({
 		var bbox = K.Util.geo.bufferLoc(loc, 500, true);
 
 		username = K.settings.robots.prefix + username;
-		
-		var robotId = Accounts.createUser({
+		var userObj = {
 			isRobot: 1,
 			username: username,
 			avatar: avatarUrl,
@@ -50,7 +49,13 @@ K.Admin.methods({
 			//email: username+'@example.com',
 			status: 'online',
 			loc: loc
-		});
+		};
+
+		if(cat) {
+		 	userObj.cats = [cat];
+		}
+
+		var robotId = Accounts.createUser(userObj);
 
 		if(robotId)
 		{
