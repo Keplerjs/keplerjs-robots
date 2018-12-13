@@ -92,6 +92,50 @@ K.Admin.methods({
 
 		return robotId;
 	},
+	insertRobotPlace: function(name, loc, cat) {
+
+		if(!K.Admin.isMe()) return null;
+		
+		var user = Meteor.user();
+
+		loc = loc || 
+			  K.Util.getPath(user,'loclast') || 
+			  K.Util.getPath(user,'settings.map.center');
+
+		var bbox = K.Util.geo.bufferLoc(loc, 500, true);
+
+		name = K.settings.robots.prefix + name;
+
+		var place = _.deepExtend({}, K.schemas.place, {
+			name: K.Util.sanitize.name(name),
+			isRobot: 1,
+			userId: user._id,
+			loc: loc,
+			source: {
+				type: 'robots'
+			}
+		});
+
+		if(cat) {
+		 	place.cats = [cat];
+		}
+
+		var placeId = Places.insert(place);
+
+		if(placeId)
+		{
+			K.Robots.tracks.insert({
+				name: name,
+				placeId: placeId,
+				indexLoc: 0,
+				geojson: K.Robots.randomTrackByLoc(loc)
+			});
+		}
+
+		console.log('Admin: insertRobotPlace', name);
+
+		return placeId;
+	},
 	removeRobot: function(username) {
 		
 		if(!K.Admin.isMe()) return null;
@@ -101,12 +145,24 @@ K.Admin.methods({
 
 		console.log('Admin: removeRobot', username);
 	},
+	removeRobotPlace: function(name) {
+		
+		if(!K.Admin.isMe()) return null;
+
+		K.Admin.call('removePlace', name);
+		K.Robots.tracks.remove({name: name});
+
+		console.log('Admin: removeRobotPlace', name);
+	},	
 	removeAllRobots: function() {
 		
 		if(!K.Admin.isMe()) return null;
 
 		Users.find({isRobot:1}).forEach(function(user) {
 			K.Admin.call('removeUser', user.username);
+		});
+		Places.find({isRobot:1}).forEach(function(place) {
+			K.Admin.call('removePlace', place.name);
 		});
 		K.Robots.tracks.remove({});		
 

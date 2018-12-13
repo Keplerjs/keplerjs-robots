@@ -21,5 +21,15 @@ Kepler.Robots = {
 				K.userById(userId);
 			}
 		});
-	}
+	},
+	insertRobotPlace: function(name, cat) {
+
+		var loc = K.Map.getCenter();
+
+		K.Admin.call('insertRobotPlace', name, loc, cat, function(err, placeId) {
+			if(placeId) {
+				K.placeById(placeId);
+			}
+		});
+	}	
 };

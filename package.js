@@ -33,7 +33,8 @@ Package.onUse(function(api) {
     'client/stylesheets/icons.css',
     'client/views/panels.html',
     'client/Robots.js',
-    'client/User_robots.js'
+    'client/User_robots.js',
+    'client/Place_robots.js'
   ],'client');
 
   api.addFiles([

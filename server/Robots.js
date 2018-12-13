@@ -73,7 +73,6 @@ Kepler.Robots = {
 				});
 			});
 		}
-
 		
 		Users.find({isRobot: 1, checkin: {$ne: null} }).forEach(function(robot) {
 			
@@ -97,18 +96,32 @@ Kepler.Robots = {
 				newLoc = coords[indexLoc].reverse();
 
 			//console.log('Robots: update ', indexLoc, newLoc);
+			if(track.userId) {
+				Users.update({_id: track.userId, checkin: null}, {
+					$set: {
+						loc: newLoc
+					}
+				});
 
-			Users.update(track.userId, {
-				$set: {
-					loc: newLoc
-				}
-			});
+				K.Robots.tracks.update({userId: track.userId}, {
+					$set: {
+						indexLoc: indexLoc
+					}
+				});
+			}
+			else if(track.placeId) {
+				Places.update(track.placeId, {
+					$set: {
+						loc: newLoc
+					}
+				});
 
-			K.Robots.tracks.update({userId: track.userId}, {
-				$set: {
-					indexLoc: indexLoc
-				}
-			});
+				K.Robots.tracks.update({placeId: track.placeId}, {
+					$set: {
+						indexLoc: indexLoc
+					}
+				});
+			}
 		});
 	}	
 };

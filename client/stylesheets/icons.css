@@ -3,7 +3,15 @@
 	background: url("/packages/keplerjs_robots/assets/images/sprite.svg") no-repeat;
 	background-position: 0 0;
 } 
-.marker-user.cat-user-bus {
+.marker-place.cat-place-bus {
 	background: url("/packages/keplerjs_robots/assets/images/sprite.svg") no-repeat;
 	background-position: 0 -30px;	
+}
+.marker-place .badge-robots,
+.marker-cluster .badge-robots {
+	position: absolute;
+	top: -20px;
+	left: -20px;
+	z-index: 1000;
+	background-color:#337ab7;
 }
