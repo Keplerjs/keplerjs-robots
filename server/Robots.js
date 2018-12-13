@@ -97,17 +97,23 @@ Kepler.Robots = {
 
 			//console.log('Robots: update ', indexLoc, newLoc);
 			if(track.userId) {
-				Users.update({_id: track.userId, checkin: null}, {
+				var up = Users.update({
+					_id: track.userId,
+					checkin: null
+				}, {
 					$set: {
 						loc: newLoc
 					}
 				});
+				
+				if(up) {
 
-				K.Robots.tracks.update({userId: track.userId}, {
-					$set: {
-						indexLoc: indexLoc
-					}
-				});
+					K.Robots.tracks.update({userId: track.userId}, {
+						$set: {
+							indexLoc: indexLoc
+						}
+					});
+				}
 			}
 			else if(track.placeId) {
 				Places.update(track.placeId, {

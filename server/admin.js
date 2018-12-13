@@ -173,7 +173,7 @@ K.Admin.methods({
 			K.Admin.call('removeUser', user.username);
 		});
 		Places.find({isRobot:1}).forEach(function(place) {
-			K.Admin.call('removePlace', place.name);
+			K.Admin.call('removePlace', place._id);
 		});
 		K.Robots.tracks.remove({});		
 
