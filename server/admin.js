@@ -62,29 +62,40 @@ K.Admin.methods({
 			//add robot to all users's friends list
 			K.updateFriendshipRobotUsers(robotId);
 
-			switch(_.random(0,3)) {
+			if(cat==='bus') {
+				K.Robots.tracks.insert({
+					username: username,
+					userId: robotId,
+					indexLoc: 0,
+					geojson: K.Robots.randomTrackByLoc(loc)
+				});
+			}
+			else {
 
-				case 0:
-				case 1:
-					K.Robots.tracks.insert({
-						username: username,
-						userId: robotId,
-						indexLoc: 0,
-						geojson: K.Robots.randomTrackByLoc(loc)
-					});
-				break;
-				case 2:
-					var place = _.sample(K.findPlacesByBBox(bbox).fetch());
-					if(place) {
-						K.insertCheckin(place._id, robotId);
-					}
-				break;
-				default:
-					Users.update(robotId, {
-						$set: {
-							loc: K.Util.geo.randomLoc(bbox)
+				switch(_.random(0,3)) {
+
+					case 0:
+					case 1:
+						K.Robots.tracks.insert({
+							username: username,
+							userId: robotId,
+							indexLoc: 0,
+							geojson: K.Robots.randomTrackByLoc(loc)
+						});
+					break;
+					case 2:
+						var place = _.sample(K.findPlacesByBBox(bbox).fetch());
+						if(place) {
+							K.insertCheckin(place._id, robotId);
 						}
-					})
+					break;
+					default:
+						Users.update(robotId, {
+							$set: {
+								loc: K.Util.geo.randomLoc(bbox)
+							}
+						})
+				}
 			}
 		}
 
