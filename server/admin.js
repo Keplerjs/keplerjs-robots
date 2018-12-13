@@ -137,6 +137,7 @@ K.Admin.methods({
 		{
 			K.Robots.tracks.insert({
 				name: name,
+				cats: [cat] || null,
 				placeId: placeId,
 				indexLoc: 0,
 				geojson: K.Robots.randomTrackByLoc(loc)
@@ -165,18 +166,29 @@ K.Admin.methods({
 
 		console.log('Admin: removeRobotPlace', name);
 	},	
-	removeAllRobots: function() {
+	removeAllRobotsCat: function(cat) {
 		
 		if(!K.Admin.isMe()) return null;
 
-		Users.find({isRobot:1}).forEach(function(user) {
+		Users.find({isRobot:1, cats: cat}).forEach(function(user) {
 			K.Admin.call('removeUser', user.username);
 		});
-		Places.find({isRobot:1}).forEach(function(place) {
+		Places.find({isRobot:1, cats: cat}).forEach(function(place) {
 			K.Admin.call('removePlace', place._id);
 		});
-		K.Robots.tracks.remove({});		
+		K.Robots.tracks.remove({cats: cat});	
 
 		console.log('Admin: removeAllRobots');
+	},
+	cleanAllRobotsCheckins: function() {
+		
+		if(!K.Admin.isMe()) return null;
+
+		Places.find({isRobot:1}).forEach(function(place) {
+			if(place)
+			K.Admin.call('cleanPlaceCheckins', place.name);
+		});
+		
+		console.log('Admin: cleanAllRobotsCheckins');
 	}
 });

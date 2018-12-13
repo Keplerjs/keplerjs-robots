@@ -10,7 +10,7 @@
 .marker-place .badge-robots,
 .marker-cluster .badge-robots {
 	position: absolute;
-	top: -20px;
+	bottom: -20px;
 	left: -20px;
 	z-index: 1000;
 	background-color:#337ab7;

@@ -50,17 +50,13 @@ Kepler.Robots = {
 	 * @return {[type]} [description]
 	 */
 	update: function() {
-
 		//console.log('Robots: update locations...');
-		
 		//var bbox = K.Util.geo.bufferLoc(loc, 100, true)
 		//var places = K.findPlacesByBBox(bbox);
-		
-
 		/*
 			auto accept friend request!
 		 */
-		if(_.random(1,5)>4)
+		if(_.random(1,5)>4)//generate random time
 		{
 			Users.find({isRobot: 1, usersReceive: {$ne: []} }).forEach(function(robot) {
 				
@@ -73,17 +69,6 @@ Kepler.Robots = {
 				});
 			});
 		}
-		
-		Users.find({isRobot: 1, checkin: {$ne: null} }).forEach(function(robot) {
-			
-			if(_.random(1,3)>2)
-			{
-				var place = _.sample(K.findPlacesByNearby(robot.loclast).fetch());
-				if(place) {
-					K.insertCheckin(place._id, robot._id);
-				}
-			}
-		});
 
 		K.Robots.tracks.find({}).forEach(function(track) {
 		//Users.find({isRobot: 1}).forEach(function(track) {
