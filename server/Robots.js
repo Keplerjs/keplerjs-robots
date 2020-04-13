@@ -60,8 +60,6 @@ Kepler.Robots = {
 		{
 			Users.find({isRobot: 1, usersReceive: {$ne: []} }).forEach(function(robot) {
 				
-				console.log('Robots: Auto-confirm friend', robot.username);
-				
 				_.map(robot.usersReceive, function(id) {
 					var user = Users.findOne(id);
 					
@@ -73,8 +71,6 @@ Kepler.Robots = {
 		if(_.random(1,5)>3)//generate random time
 		{
 			Users.find({isRobot: 1, checkin: {$ne: null} }).forEach(function(robot) {
-				
-				console.log('Robots: Auto-checkout', robot.username);
 				
 				K.removeCheckin(robot.checkin, robot._id);
 
